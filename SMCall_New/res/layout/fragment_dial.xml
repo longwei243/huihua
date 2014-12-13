@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+        <RelativeLayout
+        android:id="@+id/linearId_function_dial"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/listViewId_main"
+            android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:fadingEdge="none"
+	        android:scrollingCache="false"
+            android:background="#FFFFFF" >
+        </ListView>
+        
+        <RelativeLayout 
+            android:id="@+id/bohao_ad"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ff0000"
+            android:visibility="gone"
+            android:layout_above="@+id/keyboardId_main" >
+            <Gallery
+		        android:id="@+id/homepage_header_Gallery"
+		        android:layout_width="fill_parent"
+		        android:layout_height="match_parent"
+		        android:spacing="5dip" />
+            
+            <com.saiman.smcall.view.FlowIndicator
+	            android:id="@+id/homepage_header_FlowIndicator"
+	            android:layout_width="60dp"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_alignParentBottom="true"
+	            android:layout_marginBottom="10dp"
+	            app:count="1"
+	            app:point_normal_color="#45000000"
+	            app:point_radius="3dip"
+	            app:point_seleted_color="#ffffff"
+	            app:point_size="5dip"
+	            app:space="10dip" />
+        </RelativeLayout>
+        
+        <LinearLayout
+            android:id="@+id/keyboardId_main"
+            android:layout_alignParentBottom="true"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#333333"
+                android:gravity="bottom"
+                android:paddingBottom="8dp"
+                android:paddingLeft="36dp"
+                android:paddingRight="12dp"
+                android:paddingTop="8dp" >
+
+                <EditText
+                    android:id="@+id/editTextId_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="@drawable/btn_dial_blue_down"
+                    android:ems="10"
+                    android:hint="固话前请加拨区号"
+                    android:inputType="number"
+                    android:paddingLeft="8dp"
+                    android:phoneNumber="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonId_delete_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#00FFFFFF"
+                    android:src="@drawable/shanchu_button" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#121212" >
+
+                <ImageButton
+                    android:id="@+id/buttonId_num1_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_1_normal" />
+
+                <ImageButton
+                    android:id="@+id/buttonId_num2_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_2_normal" />
+
+                <ImageButton
+                    android:id="@+id/buttonId_num3_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_3_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#222222" >
+
+                <ImageButton
+                    android:id="@+id/buttonId_num4_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_4_normal" />
+
+                <ImageButton
+                    android:id="@+id/buttonId_num5_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_5_normal" />
+
+                <ImageButton
+                    android:id="@+id/buttonId_num6_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_6_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#121212" >
+
+                <ImageButton
+                    android:id="@+id/buttonId_num7_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_7_normal" />
+
+                <ImageButton
+                    android:id="@+id/buttonId_num8_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_8_normal" />
+
+                <ImageButton
+                    android:id="@+id/buttonId_num9_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_9_normal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#222222" >
+
+                
+				<Button
+                    android:id="@+id/buttonId_numJ_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/dialx_ic1"
+                   	/>
+                <ImageButton
+                    android:id="@+id/buttonId_num0_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/number_button"
+                    android:src="@drawable/num_0_normal" />
+				<Button
+                    android:id="@+id/buttonId_numX_main"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/dialj_ic1"
+                    />
+                
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

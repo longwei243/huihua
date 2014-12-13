@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/acbuwa_page"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF" >
+
+    <RelativeLayout
+        android:id="@+id/acbuwa_topbar"
+        style="@drawable/top_bar_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="46.0dip"
+        android:background="#0099FF" >
+
+        <TextView
+            android:id="@+id/topbar_title"
+            style="@style/topbar_text"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/ImageBtn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#20000000"
+            android:src="@drawable/ic_arrow_back_white_36dp" />
+
+        <ImageButton
+            android:id="@+id/ImageBtn_SX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="#20000000"
+            android:src="@drawable/ic_share_white_36dp" />
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/webView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/acbuwa_topbar" />
+
+</RelativeLayout>
