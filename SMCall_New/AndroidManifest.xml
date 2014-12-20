@@ -256,6 +256,11 @@
             android:screenOrientation="portrait"
             >
         </activity>
+        <activity
+            android:name="com.saiman.smcall.options.netmeeting.DialogActivity"
+            android:theme="@android:style/Theme.Dialog"
+            >
+        </activity>
 		<activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

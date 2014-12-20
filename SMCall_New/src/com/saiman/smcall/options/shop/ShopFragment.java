@@ -20,6 +20,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import com.saiman.smcall.R;
 import com.saiman.smcall.app.MobileApplication;
 import com.saiman.smcall.request.RequestUrl;
+import com.saiman.smcall.util.LogUtil;
 
 public class ShopFragment extends Fragment{
 	private WebView mWebView;
@@ -50,7 +51,8 @@ public class ShopFragment extends Fragment{
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setAllowFileAccess(true);
 
-		String path = RequestUrl.pathShop; 
+		String path = RequestUrl.pathShop(); 
+		LogUtil.i(this.getClass().getSimpleName(), "微商城地址是："+path);
 		Now_Url = "" + path;
 		Now_Url_def = "" + path;
 		
@@ -109,8 +111,7 @@ public class ShopFragment extends Fragment{
 		final OnekeyShare oks = new OnekeyShare();
 		oks.setNotification(R.drawable.ic_launcher, MobileApplication.getInstance().getString(R.string.app_name));
 		//这个是最重要的，设置需要分享的文本内容
-		oks.setText("微商城");	
-		oks.setUrl(Now_Url_def);
+		oks.setText("微商城"+Now_Url);	
 		
 		//设置是否直接分享，false为不直接分享，推荐
 		oks.setSilent(false);

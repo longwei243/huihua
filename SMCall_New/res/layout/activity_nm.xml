@@ -49,5 +49,14 @@
             android:text="通讯录选号"
             />
     </LinearLayout>
+    
+    <ListView 
+        android:id="@+id/nm_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:scrollingCache="false"
+        android:background="#FFFFFF"
+        ></ListView>
 
 </LinearLayout>

@@ -28,7 +28,13 @@
             android:textSize="20sp"
             android:gravity="center"
             />
-      
+      <Button 
+            android:id="@+id/nmdetail_btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_save_white_36dp"
+            android:layout_marginRight="6dp"
+            />
     </LinearLayout>
     
     

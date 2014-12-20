@@ -74,6 +74,7 @@
                 android:id="@+id/editTextId_PassWord_Registration"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:ems="10" />
         </LinearLayout>
 

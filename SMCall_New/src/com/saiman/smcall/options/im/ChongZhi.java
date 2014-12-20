@@ -1,5 +1,12 @@
 package com.saiman.smcall.options.im;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,12 +24,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.saiman.smcall.MainActivity;
 import com.saiman.smcall.R;
 import com.saiman.smcall.app.MobileApplication;
+import com.saiman.smcall.domain.LandedDate;
 import com.saiman.smcall.request.RequestUrl;
 import com.saiman.smcall.util.LogUtil;
 
@@ -56,56 +66,41 @@ public class ChongZhi extends Activity implements OnClickListener {
 		mSJ.setText(namees);
 	}
 
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case 69:
-				String ss = (String) msg.obj;
-				if (ss != null) {
-					char charAt = ss.charAt(2);
-					if ('1' == charAt) {
-						Toast.makeText(ChongZhi.this, "充值成功!",
-								Toast.LENGTH_LONG).show();
-					} else {
-						Toast.makeText(ChongZhi.this, "充值失败："+ss,
-								Toast.LENGTH_LONG).show();
-					}
-				}
-				break;
-			}
-			super.handleMessage(msg);
-		}
-	};
 
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
 		case R.id.buttonId_cz_CZ:
 			if (networkStatusOK()) {
-				String sjt = mSJ.getText().toString();
-				String cht = mCH.getText().toString();
-				String mmt = mMM.getText().toString();
+				final String sjt = mSJ.getText().toString();
+				final String cht = mCH.getText().toString();
+				final String mmt = mMM.getText().toString();
 				if (sjt != null) {
-					//String path = mCZPath + sjt + "&b=" + cht + "&c=" + mmt
-							;
-					final StringBuffer path = new StringBuffer(RequestUrl.chongzhiURL.replace("[用户手机号码]", sjt)
-									.replace("[卡号]",cht).replace("[卡密]", mmt));  
-//					new IXinChongZhi(handler, this).execute(path.toString());
+					
+					final StringBuffer path = new StringBuffer("http://182.92.157.109:8098/api/client/UsePrepaidCard?userName="+sjt+"&cardNumber="+cht+"&cardPassword="+mmt);		
+					LogUtil.i(this.getClass().getSimpleName(), "充值请求地址："+path.toString());
 					MobileApplication.requestQueue.add(new StringRequest(Method.GET, path.toString(), 
 							new Response.Listener<String>() {
 			
 								@Override
 								public void onResponse(String response) {
-									LogUtil.i(this.getClass().getSimpleName(), "登陆返回数据："+response);
+									LogUtil.i(this.getClass().getSimpleName(), "充值返回数据："+response);
 									if (response != null) {
-										char charAt = response.charAt(2);
-										if ('1' == charAt) {
-											Toast.makeText(ChongZhi.this, "充值成功!",
-													Toast.LENGTH_LONG).show();
-										} else {
-											Toast.makeText(ChongZhi.this, "充值失败："+response,
-													Toast.LENGTH_LONG).show();
+										try {
+											JSONObject obj = new JSONObject(response);
+											int retCode = obj.getInt("retCode");
+											if(retCode == 0){
+												getUserInfo();
+												getShangHuInfo();
+												Toast.makeText(ChongZhi.this, "充值成功", 100).show();
+												finish();
+											}else if(retCode == -1006) {
+												Toast.makeText(ChongZhi.this, "充值卡已使用", 100).show();
+											}else {
+												Toast.makeText(ChongZhi.this, "充值失败", 100).show();
+											}
+										} catch (JSONException e) {
+											e.printStackTrace();
 										}
 									}
 								}
@@ -131,7 +126,78 @@ public class ChongZhi extends Activity implements OnClickListener {
 			break;
 		}
 	}
+	
+	private int userId;
+	
+	private void getUserInfo() {
+		LandedDate ld = new LandedDate(ChongZhi.this);
+		
+		String path = RequestUrl.getUserInfo.replace("[用户名]", ld.getUserName()).replace("[密码]", ld.getPassWord());
+		MobileApplication.requestQueue.add(new StringRequest(Method.GET, path.toString(), 
+				new Response.Listener<String>() {
 
+					@Override
+					public void onResponse(String response) {
+						LogUtil.i(this.getClass().getSimpleName(), "查询用户信息返回数据："+response);
+						if (response != null) {
+							try {
+								JSONObject obj = new JSONObject(response);
+								int retCode = obj.getInt("retCode");
+								if(retCode == 0) {
+									JSONObject accountInfo = obj.getJSONObject("accountInfo");
+									userId = accountInfo.getInt("userId");
+									LogUtil.i(this.getClass().getSimpleName(), "userid是："+userId);
+									MobileApplication.cacheUtils.put("userId", userId+"");
+								}
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+							
+						}
+					}
+				}, new Response.ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError error) {
+					}
+				}));
+	}
+	
+	private void getShangHuInfo() {
+		String path = RequestUrl.getShanghuInfo();
+		MobileApplication.requestQueue.add(new StringRequest(Method.GET, path.toString(), 
+				new Response.Listener<String>() {
+
+					@Override
+					public void onResponse(String response) {
+						LogUtil.i(this.getClass().getSimpleName(), "查询商户信息返回数据："+response);
+						if (response != null) {
+							try {
+								JSONObject obj = new JSONObject(response);
+								int retCode = obj.getInt("retCode");
+								if(retCode == 0) {
+									String mallAddress = obj.getString("mallAddress");
+									String officialWebsite = obj.getString("officialWebsite");
+									if(!"".equals(mallAddress) && !"".equals(officialWebsite) && mallAddress != null && officialWebsite != null) {
+										MobileApplication.cacheUtils.put("mallAddress", mallAddress);
+										MobileApplication.cacheUtils.put("officialWebsite", officialWebsite);
+									}
+								}
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+							
+						}
+					}
+				}, new Response.ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError error) {
+					}
+				}));
+	}
+	
+	
 	private boolean networkStatusOK() {
 		try {
 			ConnectivityManager connectivity = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

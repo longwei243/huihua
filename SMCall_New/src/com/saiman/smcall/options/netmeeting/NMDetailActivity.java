@@ -1,5 +1,6 @@
 package com.saiman.smcall.options.netmeeting;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -52,7 +54,8 @@ public class NMDetailActivity extends Activity{
 	private Button nmdetail_btn_call;
 	private Button nmdetail_btn_selectall;
 	private Button nmdetail_btn_add;
-	
+	private Button nmdetail_btn_back;
+	private Button nmdetail_btn_save;
 	private String meetid = "";
 	
 	private String userName;
@@ -108,7 +111,8 @@ public class NMDetailActivity extends Activity{
 				}
 			}
 		});
-		
+		nmdetail_btn_save = (Button) findViewById(R.id.nmdetail_btn_save);
+		nmdetail_btn_save.setOnClickListener(clickListener);
 		nmdetail_btn_back = (Button) findViewById(R.id.nmdetail_btn_back);
 		nmdetail_btn_back.setOnClickListener(clickListener);
 		nmdetail_btn_call = (Button) findViewById(R.id.nmdetail_btn_call);
@@ -183,6 +187,12 @@ public class NMDetailActivity extends Activity{
 			case R.id.nmdetail_btn_back:
 				finish();
 				break;
+			case R.id.nmdetail_btn_save:
+				Intent i = new Intent(NMDetailActivity.this, DialogActivity.class);
+				i.putExtra("datalist", (Serializable)dataList);
+				LogUtil.i(this.getClass().getSimpleName(), "傳之前datalist的size："+dataList.size());
+				startActivity(i);
+				break;
 			}
 		}
 		
@@ -231,8 +241,6 @@ public class NMDetailActivity extends Activity{
 					}));
 		}
 	};
-	private Button nmdetail_btn_back;
-	
 	
 	private void joinMeeting(String meetid) {
 		LogUtil.i(this.getClass().getSimpleName(), "开始加入会议了");

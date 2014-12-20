@@ -22,8 +22,6 @@ import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.CallLog;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,31 +46,6 @@ import com.saiman.smcall.request.RequestUrl;
 import com.saiman.smcall.util.LogUtil;
 
 public class CallPhone extends Activity implements SensorEventListener {
-	private Handler mHandleR = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case 69:
-				String ss = (String) msg.obj;
-				if (ss != null) {
-					String[] split = ss.split("[|]");
-					if ('1' == ss.charAt(2)) {
-						mZT.setText("等待对方接听，请稍后");
-						if (mWifiLock.isHeld()) {
-							mWifiLock.acquire();
-						}
-					} else {
-						mZT.setText(split[2]);
-						if (mWifiLock.isHeld()) {
-							mWifiLock.acquire();
-						}
-					}
-				}
-				break;
-			}
-			super.handleMessage(msg);
-		}
-	};
 	private TextView mZT;
 	private CallPhoneYinPin iXinCallPhoneYinPin;
 
@@ -187,13 +160,13 @@ public class CallPhone extends Activity implements SensorEventListener {
 		String namees = sharedPreferences.getString("UserName", null);
 		String[] CallApiS=RequestUrl.callURL.split("↓");
 	    String CallUrl=CallApiS[0].toString().replace("[主叫]",namees).replace("[被叫]",phoneNum).replace("[透传]","1");
+//	    String CallUrl=RequestUrl.callURL.replace("[主叫]",namees).replace("[被叫]",phoneNum);
 
 		mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		mWifiLock = mWifiManager.createWifiLock("Test");
 		if (mWifiLock != null) {
 			mWifiLock.acquire();
 		}
-//		new CallPhoneAsyncTask(mHandleR).execute(CallUrl);
 
 		MobileApplication.requestQueue.add(new StringRequest(Method.GET, CallUrl, 
 				new Response.Listener<String>() {
@@ -202,6 +175,12 @@ public class CallPhone extends Activity implements SensorEventListener {
 					public void onResponse(String response) {
 						LogUtil.i(this.getClass().getSimpleName(), "打电话返回数据："+response);
 						if (response != null) {
+//							try {
+//								JSONObject obj = new JSONObject(response);
+//								int retCode = (Integer) obj.get("retCode");
+//							} catch (JSONException e) {
+//								e.printStackTrace();
+//							}
 							String[] split = response.split("[|]");
 							if ('1' == response.charAt(2)) {
 								mZT.setText("等待对方接听，请稍后");

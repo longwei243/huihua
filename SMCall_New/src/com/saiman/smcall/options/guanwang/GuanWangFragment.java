@@ -19,6 +19,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import com.saiman.smcall.R;
 import com.saiman.smcall.app.MobileApplication;
 import com.saiman.smcall.request.RequestUrl;
+import com.saiman.smcall.util.LogUtil;
 
 public class GuanWangFragment extends Fragment{
 
@@ -50,7 +51,8 @@ public class GuanWangFragment extends Fragment{
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setAllowFileAccess(true);
 
-		String path = RequestUrl.pathGuanwang;
+		String path = RequestUrl.pathGuanwang();
+		LogUtil.i(this.getClass().getSimpleName(), "微官网地址是："+path);
 		Now_Url = "" + path;
 		Now_Url_def = "" + path;
 		
@@ -107,8 +109,8 @@ public class GuanWangFragment extends Fragment{
 		final OnekeyShare oks = new OnekeyShare();
 		oks.setNotification(R.drawable.ic_launcher, MobileApplication.getInstance().getString(R.string.app_name));
 		//这个是最重要的，设置需要分享的文本内容
-		oks.setText("微官网");
-		oks.setUrl(Now_Url_def);
+		oks.setText("微官网"+Now_Url);
+//		oks.setUrl(Now_Url);
 		//设置是否直接分享，false为不直接分享，推荐
 		oks.setSilent(false);
 		

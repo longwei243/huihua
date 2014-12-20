@@ -201,7 +201,7 @@ public class IMFragment extends Fragment implements OnClickListener{
 
 	}
 
-	private String mBanBenPath = RequestUrl.pathVesion;
+	private String mBanBenPath = RequestUrl.pathVesion(RequestUrl.userid);
 
 	@Override
 	public void onClick(View arg0) {

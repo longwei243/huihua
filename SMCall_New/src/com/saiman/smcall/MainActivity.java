@@ -2,7 +2,12 @@ package com.saiman.smcall;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,15 +18,26 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.Request.Method;
+import com.android.volley.toolbox.StringRequest;
 import com.saiman.smcall.app.MobileApplication;
+import com.saiman.smcall.domain.LandedDate;
 import com.saiman.smcall.event.DialEvent;
 import com.saiman.smcall.options.contact.ContactFragment;
 import com.saiman.smcall.options.dial.DialFragment;
 import com.saiman.smcall.options.guanwang.GuanWangFragment;
 import com.saiman.smcall.options.im.IMFragment;
+import com.saiman.smcall.options.login.LoginActivity;
 import com.saiman.smcall.options.shop.ShopFragment;
+import com.saiman.smcall.request.RequestUrl;
 import com.saiman.smcall.R;
+import com.saiman.smcall.util.LogUtil;
 import com.saiman.smcall.view.ChangeColorIconWithTextView;
+
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends FragmentActivity implements OnPageChangeListener, OnClickListener{
@@ -36,10 +52,11 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 	private Fragment fragment_guanwang;
 	private Fragment fragment_shop;
 	private Fragment fragment_im;
-	private Fragment fragment_temp;
 	
 	SharedPreferences MyPreferences;
 	SharedPreferences.Editor editor;
+	
+	private int userId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -58,6 +75,8 @@ public class MainActivity extends FragmentActivity implements OnPageChangeListen
 
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(this);
+		
+		
 	}
 
 	private void initDatas() {

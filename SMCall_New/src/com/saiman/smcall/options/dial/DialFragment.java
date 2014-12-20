@@ -63,6 +63,7 @@ import com.saiman.smcall.options.login.LoginActivity;
 import com.saiman.smcall.options.netmeeting.NetMeetingActivity;
 import com.saiman.smcall.options.web.WebCenter;
 import com.saiman.smcall.request.RequestUrl;
+import com.saiman.smcall.util.LogUtil;
 import com.saiman.smcall.view.FlowIndicator;
 
 import de.greenrobot.event.EventBus;
@@ -116,6 +117,12 @@ public class DialFragment extends Fragment{
 		homepage_header_Gallery.setAdapter(galleryAdapter);
 		homepage_header_FlowIndicator.setCount(1);
 		
+	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		GetAdTask task = new GetAdTask();
 		task.execute();
 	}
@@ -546,11 +553,11 @@ public class DialFragment extends Fragment{
 				return;
 			}
 			try {
-				System.out.println("result-----------" + result);
+				LogUtil.i(this.getClass().getSimpleName(), "广告返回数据result-----------" + result);
 				JSONObject jsonObject = new JSONObject(result);
-				boolean success = (Boolean) jsonObject.get("success");
-				if (success) {
-					JSONArray jsonArray = jsonObject.getJSONArray("ads");
+				int retCode = (Integer) jsonObject.get("retCode");
+				if (retCode == 0) {
+					JSONArray jsonArray = jsonObject.getJSONArray("advs");
 					if (jsonArray.length() == 0) {
 						String picPath = "assets/img/defaultpic_big.png";
 						String url = "";
@@ -635,14 +642,15 @@ public class DialFragment extends Fragment{
 								}
 							});
 				}
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
 		@Override
 		protected String doInBackground(Void... params) {
-			String url =RequestUrl.pathMainActivity;
+			String url =RequestUrl.pathMainActivity();
+			LogUtil.i(this.getClass().getSimpleName(), "广告地址是："+url);
 			HttpGet httpGet = new HttpGet(url);
 			HttpResponse httpResponse;
 			try {
